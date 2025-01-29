@@ -1,40 +1,50 @@
-# BHE Software Engineer Coding Exercise
+# React + TypeScript + Vite
 
-## The Sieve of Eratosthenes
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Prime numbers have many modern day applications and a long history in 
-mathematics. Utilizing your own resources, research the sieve of Eratosthenes,
-an algorithm for generating prime numbers. Based on your research, implement 
-an API that allows the caller to retrieve the Nth prime number.
-Some stub code and a test suite have been provided as a convenience. However, 
-you are encouraged to deviate from Eratosthenes's algorithm, modify the 
-existing functions/methods, or anything else that might showcase your ability; 
-provided the following requirements are satisfied.
+Currently, two official plugins are available:
 
-You must author your work in Go, JavaScript/TypeScript, Python, or C# - all 
-other language submissions will be rejected. Stub code has been provided, so 
-please choose from one of the provided language stubs that is most 
-relevant to your skill set and the position you are applying for.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-### Requirements
+## Expanding the ESLint configuration
 
-- Fork this repo to implement your solution
-- The library package provides an API for retrieving the Nth prime number using 0-based indexing where the 0th prime number is 2
-- Interviewers must be able to execute a suite of tests
-  - Go: `go test ./...`
-  - C#: `dotnet test Sieve.Tests`
-  - Javascript: `npm run test`
-  - Python: `python -m unittest test_sieve.py`
-- Your solution is committed to your project's `main` branch, no uncommitted changes or untracked files please
-- Submit the link to your public fork for review
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-### Considerations
+- Configure the top-level `parserOptions` property like this:
 
-You may add more tests or restructure existing tests, but you may NOT change or remove
-the existing test outcomes; eg- f(0)=2, f(19)=71, f(99)=541, ..., f(10000000)=179424691 
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
-During the technical interview, your submission will be discussed, and you will be evaluated in the following areas:
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-- Technical ability
-- Communication skills
-- Work habits and complementary skills
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
+
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```
