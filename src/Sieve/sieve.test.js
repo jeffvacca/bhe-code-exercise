@@ -1,15 +1,29 @@
-const {getNthPrime} = require("./sieve");
+const { getNthPrime } = require("./sieve");
 
 describe("Sieve", () => {
-  test("valid results", () => {
-    expect(getNthPrime(0)).toBe(2);
-    expect(getNthPrime(19)).toBe(71);
-    expect(getNthPrime(99)).toBe(541);
-    expect(getNthPrime(500)).toBe(3581);
-    expect(getNthPrime(986)).toBe(7793);
-    expect(getNthPrime(2000)).toBe(17393);
-    expect(getNthPrime(1000000)).toBe(15485867);
-    expect(getNthPrime(10000000)).toBe(179424691);
-    //expect(getNthPrime(100000000)).toBe(2038074751); //not required, just a fun challenge
+  test("valid results", async () => {
+    await expect(getNthPrime(0)).resolves.toBe(2);
+    await expect(getNthPrime(19)).resolves.toBe(71);
+    await expect(getNthPrime(99)).resolves.toBe(541);
+    await expect(getNthPrime(500)).resolves.toBe(3581);
+    await expect(getNthPrime(986)).resolves.toBe(7793);
+    await expect(getNthPrime(2000)).resolves.toBe(17393);
+    await expect(getNthPrime(1000000)).resolves.toBe(15485867);
   });
 });
+
+describe("Sieve Longer", () => {
+  test("valid results", async () => {
+    await expect(getNthPrime(10000000)).resolves.toBe(179424691);
+  }, 10000);
+});
+
+
+//Working, but commented out for sanity while developing
+
+// describe("Sieve Longest", () => {
+//   test("valid results", async () => {
+//     await expect(getNthPrime(100000000)).resolves.toBe(2038074751);
+//   }, 200000);
+// });
+

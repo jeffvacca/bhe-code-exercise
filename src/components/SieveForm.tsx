@@ -30,10 +30,7 @@ const formSchema = z.object({
 
 export default function SieveForm() {
   const [isLoading, setIsLoading] = useState(false);
-  // const [nthPrime, setNthPrime] = useState();
-
-
-
+  const [nthPrime, setNthPrime] = useState<number>();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,45 +39,25 @@ export default function SieveForm() {
     },
   })
 
-
-
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
-
-
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const nthPrime = await getNthPrime(values.numInput);
+      setNthPrime(nthPrime);
 
-      // getNthPrime(values.numInput);
-      console.log(nthPrime);
-      console.log("Form Submitted:", values);
     } catch (error) {
       console.error("Submission error:", error);
     } finally {
       setIsLoading(false);
     }
-
-
-    // try {
-    //   // Make API call or perform your submission logic
-      // const nthPrime = await getNthPrime(values.numInput);
-      // console.log(nthPrime);
-    // } catch (error) {
-    //   // Handle any errors 
-    // } finally {
-    //   setIsLoading(false);
-    //   console.log('set Loading false')
-
-    // }
-
-
-
-    // setTimeout(() => {
-    //   setIsLoading(false);
-    // }, 3000);
-    
   }
+
+  const clearForm = () => {
+    console.log('clear form');
+    form.reset();
+    setNthPrime(undefined);
+  }
+
 
   return (
     <div className='w-full flex items-center justify-center'>
@@ -103,11 +80,18 @@ export default function SieveForm() {
               </FormItem>
             )}
           />
-          <Button type="submit">
-            {isLoading && <Loader2 className="animate-spin" />}
-            Submit
-          </Button>
-          <h3 className="text-primary">{isLoading.toString()}</h3>
+          <div className='flex justify-between w-full'>
+            <Button type="submit">
+              {isLoading && <Loader2 className="animate-spin" />}
+              Submit
+            </Button>
+
+            <Button type="button" onClick={clearForm}>
+              Clear
+            </Button>
+          </div>
+
+          <h3 className="text-primary">{nthPrime?.toString()} </h3>
 
         </form>
       </Form>
