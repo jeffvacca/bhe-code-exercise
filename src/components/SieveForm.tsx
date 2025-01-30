@@ -61,7 +61,7 @@ export default function SieveForm() {
   }
 
   return (
-    <div className='md:grid grid-cols-1 md:grid-cols-2 pt-32 pb-16 gap-16'>
+    <div className='md:grid grid-cols-1 md:grid-cols-2 py-8 gap-16'>
       <Card className="!bg-transparent !border-slate-300 !text-slate-800 mb-8">
         <CardHeader>
           <CardTitle>Nth Prime</CardTitle>
@@ -84,7 +84,7 @@ export default function SieveForm() {
                 )}
               />
               <div className='flex items-center'>
-                <Button type="submit" variant='outline' className="mr-4 !bg-transparent !border-slate-400 dark:hover:text-slate-400">
+                <Button type="submit" variant='outline' className="mr-4 !bg-transparent !border-slate-400 dark:hover:text-slate-400" disabled={isLoading}>
                   {isLoading && <Loader2 className="animate-spin" />}
                   Submit
                 </Button>
@@ -96,7 +96,6 @@ export default function SieveForm() {
           </Form>
         </CardContent>
       </Card>
-
       <Card className='!bg-transparent !border-slate-300 !text-slate-800 mb-8'>
         <CardHeader>
           <CardTitle>Solution</CardTitle>
