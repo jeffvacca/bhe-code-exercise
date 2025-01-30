@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { getNthPrime } from "../Sieve/sieve"
+import { getNthPrime } from "../helpers/sieve"
 import { Loader2 } from "lucide-react"
 import {
   Card,
