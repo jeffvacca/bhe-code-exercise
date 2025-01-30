@@ -18,12 +18,9 @@ describe("Sieve Longer", () => {
   }, 10000);
 });
 
-
-//Working, but commented out for sanity while developing
-
-// describe("Sieve Longest", () => {
-//   test("valid results", async () => {
-//     await expect(getNthPrime(100000000)).resolves.toBe(2038074751);
-//   }, 200000);
-// });
+describe("Sieve Longest", () => {
+  test("valid results", async () => {
+    await expect(getNthPrime(100000000)).resolves.toBe(2038074751);
+  }, 200000);
+});
 

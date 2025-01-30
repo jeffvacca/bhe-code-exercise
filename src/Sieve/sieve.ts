@@ -1,6 +1,6 @@
 export const getNthPrime = async (n: number): Promise<number> => {
   if (n < 0) {
-    throw new Error("Parameter can not be negative");
+    throw new Error("Negative numbers are not allowed");
   }
 
   // Get the upper boundary - necessary for handling large numbers
@@ -20,7 +20,7 @@ export const getNthPrime = async (n: number): Promise<number> => {
   const smallPrimes = await sieve(limit); // Await for async sieve
 
   // Additional batches - Use the segmented sieve approach to find the (n + 1)-th prime
-  let count = 0; // Prime counter
+  let count = 0; // Count Primes
   let start = 2; // Starting range
   const segmentSize = 100000; // Process in chunks - avoids invalid array length error
 
@@ -63,7 +63,7 @@ async function sieve(limit: number): Promise<number[]> {
   return new Promise((resolve) => {
     setTimeout(() => {
       const primeArr = new Array(limit + 1).fill(true);
-      primeArr[0] = primeArr[1] = false; // 0 and 1 are not primes
+      primeArr[0] = primeArr[1] = false; // First prime is 2
 
       for (let i = 2; i * i <= limit; i++) {
         if (primeArr[i]) {

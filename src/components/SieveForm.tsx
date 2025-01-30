@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react'
-
+import { useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm, useFormState } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,7 +15,13 @@ import {
 import { Input } from "@/components/ui/input"
 import { getNthPrime } from "../Sieve/sieve"
 import { Loader2 } from "lucide-react"
-
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 
 const formSchema = z.object({
@@ -25,7 +29,6 @@ const formSchema = z.object({
     message: "Must be a non-negative number",
   }),
 })
-
 
 
 export default function SieveForm() {
@@ -53,51 +56,55 @@ export default function SieveForm() {
   }
 
   const clearForm = () => {
-    console.log('clear form');
     form.reset();
     setNthPrime(undefined);
   }
 
-
   return (
-    <div className='w-full flex items-center justify-center'>
+    <div className='md:grid grid-cols-1 md:grid-cols-2 pt-32 pb-16 gap-16'>
+      <Card className="!bg-transparent !border-slate-300 !text-slate-800 mb-8">
+        <CardHeader>
+          <CardTitle>Nth Prime</CardTitle>
+          <CardDescription>Get the Nth Prime Number</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="numInput"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-xl text-slate-800 !mb2 block"></FormLabel>
+                    <FormControl>
+                      <Input className="!border-slate-400" type="number" placeholder="choose a number" {...field} value={field.value ?? ""} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className='flex items-center'>
+                <Button type="submit" variant='outline' className="mr-4 !bg-transparent !border-slate-400 dark:hover:text-slate-400">
+                  {isLoading && <Loader2 className="animate-spin" />}
+                  Submit
+                </Button>
+                <Button type="button" variant="outline" className='!bg-transparent !border-slate-400 dark:hover:text-slate-400' onClick={clearForm}>
+                  Clear
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="numInput"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nth Prime</FormLabel>
-                <FormControl>
-                  <Input type="number" placeholder="choose a number" {...field} value={field.value ?? ""} />
-                </FormControl>
-                <FormDescription>
-                  Get the Nth Prime Number
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className='flex justify-between w-full'>
-            <Button type="submit">
-              {isLoading && <Loader2 className="animate-spin" />}
-              Submit
-            </Button>
-
-            <Button type="button" onClick={clearForm}>
-              Clear
-            </Button>
-          </div>
-
-          <h3 className="text-primary">{nthPrime?.toString()} </h3>
-
-        </form>
-      </Form>
-
-
+      <Card className='!bg-transparent !border-slate-300 !text-slate-800 mb-8'>
+        <CardHeader>
+          <CardTitle>Solution</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <h3 className="text-4xl font-mono text-slate-500">{nthPrime?.toString()} </h3>
+        </CardContent>
+      </Card>
     </div>
-
   )
 }
