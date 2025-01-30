@@ -61,7 +61,7 @@ export default function SieveForm() {
   }
 
   return (
-    <div className='md:grid grid-cols-1 md:grid-cols-2 py-8 gap-16'>
+    <div className='md:grid grid-cols-1 md:grid-cols-2 py-8 gap-16 px-4 md:px-0'>
       <Card className="!bg-transparent !border-slate-300 !text-slate-800 mb-8">
         <CardHeader>
           <CardTitle>Nth Prime</CardTitle>
