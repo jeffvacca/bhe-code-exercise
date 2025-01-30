@@ -1,4 +1,4 @@
-const getNthPrime = (n:number) => {
+export const getNthPrime = (n:number) => {
   if (n < 0) {
     throw new Error("Parameter can not be negative");
   }
@@ -74,4 +74,3 @@ function sieve(limit:number) {
     .map((prime, index) => (prime ? index : null)) // non primes are set to null
     .filter((x) => x !== null); // filter out all null values
 }
-module.exports = {getNthPrime};

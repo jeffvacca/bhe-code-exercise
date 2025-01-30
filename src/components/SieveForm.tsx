@@ -1,7 +1,7 @@
-// import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { useForm, useFormState } from "react-hook-form"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -15,29 +15,72 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { getNthPrime } from "../Sieve/sieve"
+import { Loader2 } from "lucide-react"
+
+
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  numInput: z.coerce.number().nonnegative({
+    message: "Must be a non-negative number",
   }),
 })
 
+
+
 export default function SieveForm() {
+  const [isLoading, setIsLoading] = useState(false);
+  // const [nthPrime, setNthPrime] = useState();
 
- // 1. Define your form.
- const form = useForm<z.infer<typeof formSchema>>({
-  resolver: zodResolver(formSchema),
-  defaultValues: {
-    username: "",
-  },
-})
 
-// 2. Define a submit handler.
-function onSubmit(values: z.infer<typeof formSchema>) {
-  // Do something with the form values.
-  // ✅ This will be type-safe and validated.
-  console.log(values)
-}
+
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      numInput: undefined,
+    },
+  })
+
+
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
+
+
+    try {
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // getNthPrime(values.numInput);
+      console.log(nthPrime);
+      console.log("Form Submitted:", values);
+    } catch (error) {
+      console.error("Submission error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+
+
+    // try {
+    //   // Make API call or perform your submission logic
+      // const nthPrime = await getNthPrime(values.numInput);
+      // console.log(nthPrime);
+    // } catch (error) {
+    //   // Handle any errors 
+    // } finally {
+    //   setIsLoading(false);
+    //   console.log('set Loading false')
+
+    // }
+
+
+
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    // }, 3000);
+    
+  }
 
   return (
     <div className='w-full flex items-center justify-center'>
@@ -46,12 +89,12 @@ function onSubmit(values: z.infer<typeof formSchema>) {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
-            name="username"
+            name="numInput"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Nth Prime</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="choose a number" {...field} />
+                  <Input type="number" placeholder="choose a number" {...field} value={field.value ?? ""} />
                 </FormControl>
                 <FormDescription>
                   Get the Nth Prime Number
@@ -60,7 +103,12 @@ function onSubmit(values: z.infer<typeof formSchema>) {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit">
+            {isLoading && <Loader2 className="animate-spin" />}
+            Submit
+          </Button>
+          <h3 className="text-primary">{isLoading.toString()}</h3>
+
         </form>
       </Form>
 
